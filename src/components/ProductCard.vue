@@ -48,7 +48,7 @@ const getProductImageUrl = (imageUrl: string) => {
         :class="['color-swatch', { active: id === selectedId }]"
         :style="{ backgroundColor: product.productColour }"
         :aria-label="`Select ${product.productVariant}`"
-        @click="selectProduct(id)"
+        @click="selectProduct(String(id))"
       />
     </div>
     <button class="button" :disabled="!selectedProduct.inStock">
@@ -59,11 +59,11 @@ const getProductImageUrl = (imageUrl: string) => {
 
 <style scoped>
 .product-details {
-  max-width: 300px;
-  padding: 20px;
+  max-width: 18.75rem;
+  padding: 1.25rem;
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -72,32 +72,32 @@ const getProductImageUrl = (imageUrl: string) => {
 .product-details__image {
   width: 100%;
   height: auto;
-  margin-bottom: 16px;
+  margin-bottom: 1rem;
 }
 
 .product-details__name {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: bold;
-  margin: 8px 0;
+  margin: 0.5rem 0;
   text-align: center;
 }
 
 .product-details__price {
-  font-size: 20px;
-  margin-bottom: 16px;
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
 }
 
 .product-details__colors {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
 }
 
 .color-swatch {
-  width: 24px;
-  height: 24px;
+  width: 1.5rem;
+  height: 1.5rem;
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 0.25rem;
   cursor: pointer;
   padding: 0;
 }
@@ -108,12 +108,12 @@ const getProductImageUrl = (imageUrl: string) => {
 
 .button {
   width: 100%;
-  padding: 12px;
+  padding: 0.75rem;
   background-color: #008744;
   color: white;
   border: none;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 0.25rem;
+  font-size: 1rem;
   cursor: pointer;
 }
 
