@@ -26,7 +26,7 @@ const getProductImageUrl = (imageUrl: string) => {
   const imageDomain =
     "https://cdn.teufelaudio.com/image/upload/c_fill,f_auto,h_200,q_auto,w_300";
 
-  return new URL(imageUrl, imageDomain).toString();
+  return `${imageDomain}${imageUrl}`;
 };
 </script>
 
@@ -89,6 +89,8 @@ const getProductImageUrl = (imageUrl: string) => {
 
 .product-details__colors {
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 0.5rem;
   margin-bottom: 1rem;
 }
@@ -100,10 +102,15 @@ const getProductImageUrl = (imageUrl: string) => {
   border-radius: 0.25rem;
   cursor: pointer;
   padding: 0;
-}
-
-.color-swatch:hover {
-  border-color: #000;
+  transition: all 0.2s ease;
+  &.active,
+  &.active:hover {
+    border: 2px solid #4a90e2;
+    transform: scale(1.2);
+  }
+  &:hover {
+    border: 1px solid #4a90e2;
+  }
 }
 
 .button {
@@ -124,6 +131,5 @@ const getProductImageUrl = (imageUrl: string) => {
 .button:disabled {
   background-color: #808080;
   color: #fafafa;
-  border: 1px solid #666666;
 }
 </style>
