@@ -1,0 +1,30 @@
+{
+  "001": {
+    "productVariant": "Night Black",
+    "productColour": "#333",
+    "productPrice": 12550,
+    "inStock": true,
+    "imageUrl": "/v1/products/BOOMSTER_GO/boomster-go-main-black-1300x1300x72.jpg"
+  },
+  "002": {
+    "productVariant": "Sand White",
+    "productColour": "#d5ccb8",
+    "productPrice": 9900,
+    "inStock": false,
+    "imageUrl": "/v1/products/BOOMSTER_GO/boomster-go-main-sand-1300x1300x72.jpg"
+  },
+  "003": {
+    "productVariant": "Space Blue",
+    "productColour": "#4b5c7d",
+    "productPrice": 11550,
+    "inStock": false,
+    "imageUrl": "/v1/products/BOOMSTER_GO/boomster-go-main-blue-1300x1300x72.jpg"
+  },
+  "005": {
+    "productVariant": "Coral red",
+    "productColour": "#ff4040",
+    "productPrice": 11550,
+    "inStock": true,
+    "imageUrl": "/v1/products/BOOMSTER_GO/boomster-go-main-orange-1300x1300x72.jpg"
+  }
+}

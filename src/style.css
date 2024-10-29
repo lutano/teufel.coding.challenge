@@ -4,13 +4,30 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(31, 31, 31, 0.87);
   background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --gradient-angle: 45deg;
+  --gradient-speed: 45s;
+  --gradient-colors-1: #ee7752, #e73c7e, #23a6d5, #23d5ab;
+  --gradient-colors-2: #23d5ab, #ee7752, #e73c7e, #23a6d5;
+}
+
+@keyframes gradient-animation {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 a {
@@ -28,6 +45,10 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+
+  /* background: linear-gradient(var(--gradient-angle), var(--gradient-colors-1)); */
+  background-size: 200% 200%;
+  animation: gradient-animation var(--gradient-speed) ease infinite;
 }
 
 h1 {
@@ -54,8 +75,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+button:disabled:hover {
+  cursor: not-allowed;
+}
+
 .card {
   padding: 2em;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 8px;
 }
 
 #app {
@@ -63,17 +97,7 @@ button:focus-visible {
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 12px;
 }
