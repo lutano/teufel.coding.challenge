@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { ProductList } from "../types/ProductTypes";
+import LoadingSpinner from "./LoadingSpinner.vue";
 
 const products = ref<ProductList>({});
 const selectedId = ref("001");
@@ -52,10 +53,7 @@ onMounted(() => {
 
 <template>
   <div class="product-details">
-    <div v-if="isLoading" class="product-details__loading">
-      <div class="spinner"></div>
-      <span>Loading products...</span>
-    </div>
+    <LoadingSpinner v-if="isLoading" />
     <div v-else-if="error">Error: {{ error }}</div>
     <template v-else-if="selectedProduct">
       <img
@@ -158,30 +156,5 @@ onMounted(() => {
 .button:disabled {
   background-color: #808080;
   color: #fafafa;
-}
-
-.product-details__loading {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 2rem;
-  .spinner {
-    width: 2rem;
-    height: 2rem;
-    border: 0.25rem solid #f3f3f3;
-    border-top: 0.25rem solid #008744;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-  }
-}
-
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
 }
 </style>
