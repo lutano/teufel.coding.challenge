@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import { ProductList } from "../types/ProductTypes";
-import productData from "../data/bikiniberlin.json";
 
-const products = productData as ProductList;
+const products = ref<ProductList>({});
 const selectedId = ref("001");
+const isLoading = ref(false);
+const error = ref<string | null>(null);
 
-const selectedProduct = computed(() => products[selectedId.value]);
+const selectedProduct = computed(() => products.value?.[selectedId.value]);
 
 const selectProduct = (id: string) => {
   selectedId.value = id;
@@ -28,32 +29,58 @@ const getProductImageUrl = (imageUrl: string) => {
 
   return `${imageDomain}${imageUrl}`;
 };
+
+const fetchProducts = async () => {
+  try {
+    isLoading.value = true;
+    const response = await fetch(
+      "https://cdn.teufelaudio.com/raw/upload/v1599581070/test_assets/bikiniberlin.json"
+    );
+    if (!response.ok) throw new Error("Failed to fetch product list");
+    products.value = await response.json();
+  } catch (e) {
+    error.value = e instanceof Error ? e.message : "Failed to load products";
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchProducts();
+});
 </script>
 
 <template>
   <div class="product-details">
-    <img
-      :src="getProductImageUrl(selectedProduct.imageUrl)"
-      :alt="selectedProduct.productVariant"
-      class="product-details__image"
-    />
-    <h1 class="product-details__name">{{ productName }}</h1>
-    <span class="price product-details__price">
-      {{ formatPrice(selectedProduct.productPrice) }}</span
-    >
-    <div class="product-details__colors">
-      <button
-        v-for="(product, id) in products"
-        :key="id"
-        :class="['color-swatch', { active: id === selectedId }]"
-        :style="{ backgroundColor: product.productColour }"
-        :aria-label="`Select ${product.productVariant}`"
-        @click="selectProduct(String(id))"
-      />
+    <div v-if="isLoading" class="product-details__loading">
+      <div class="spinner"></div>
+      <span>Loading products...</span>
     </div>
-    <button class="button" :disabled="!selectedProduct.inStock">
-      {{ selectedProduct.inStock ? "Buy now" : "Out of stock" }}
-    </button>
+    <div v-else-if="error">Error: {{ error }}</div>
+    <template v-else-if="selectedProduct">
+      <img
+        :src="getProductImageUrl(selectedProduct.imageUrl)"
+        :alt="selectedProduct.productVariant"
+        class="product-details__image"
+      />
+      <h1 class="product-details__name">{{ productName }}</h1>
+      <span class="price product-details__price">
+        {{ formatPrice(selectedProduct.productPrice) }}</span
+      >
+      <div class="product-details__colors">
+        <button
+          v-for="(product, id) in products"
+          :key="id"
+          :class="['color-swatch', { active: id === selectedId }]"
+          :style="{ backgroundColor: product.productColour }"
+          :aria-label="`Select ${product.productVariant}`"
+          @click="selectProduct(String(id))"
+        />
+      </div>
+      <button class="button" :disabled="!selectedProduct.inStock">
+        {{ selectedProduct.inStock ? "Buy now" : "Out of stock" }}
+      </button>
+    </template>
   </div>
 </template>
 
@@ -131,5 +158,30 @@ const getProductImageUrl = (imageUrl: string) => {
 .button:disabled {
   background-color: #808080;
   color: #fafafa;
+}
+
+.product-details__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 2rem;
+  .spinner {
+    width: 2rem;
+    height: 2rem;
+    border: 0.25rem solid #f3f3f3;
+    border-top: 0.25rem solid #008744;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 </style>
