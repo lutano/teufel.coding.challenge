@@ -1,0 +1,16 @@
+:root {
+  --gradient-angle: 45deg;
+  --gradient-speed: 45s;
+  --gradient-colors-1: #ee7752, #e73c7e, #23a6d5, #23d5ab;
+  --gradient-colors-2: #23d5ab, #ee7752, #e73c7e, #23a6d5;
+
+  --color-primary: #008744;
+  --color-primary-dark: #006633;
+  --color-accent: #4a90e2;
+
+  --color-muted: #f3f3f3;
+  --color-muted-dark: #808080;
+  --color-text-muted: #fafafa;
+
+  --color-text-default: rgba(31, 31, 31, 0.87);
+}
