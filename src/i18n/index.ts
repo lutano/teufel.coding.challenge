@@ -17,6 +17,7 @@ export const i18n = createI18n({
   },
 });
 
+// Add locale management functionalities
 export function useLocale() {
   const setLocale = async (locale: SupportedLocale) => {
     (i18n.global.locale.value as SupportedLocale) = locale;
