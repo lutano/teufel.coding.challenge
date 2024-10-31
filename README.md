@@ -1,5 +1,33 @@
-# Vue 3 + TypeScript + Vite
+# Product Color Selector Component
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+A Vue 3 component for an e-commerce website that allows users to view and select product variants through color swatches. Built with Vue 3, TypeScript, and Vite.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Features
+
+- Dynamic color swatch generation from product data
+- Internationalization (i18n) support for multiple languages and regions
+- Real-time product updates on swatch selection
+
+## Technical Stack
+
+- Vue 3 with `<script setup>`
+- TypeScript
+- Vite
+- Vue I18n
+- PostCSS & Autoprefixer
+
+## Getting Started
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run tests
+npm run test
+```
