@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
 import { ProductList } from "../types/ProductTypes";
 import LoadingSpinner from "./LoadingSpinner.vue";
+import { i18n } from "../i18n";
+
+const { t } = useI18n();
 
 const products = ref<ProductList>({});
 const selectedId = ref("001");
@@ -15,14 +19,12 @@ const selectProduct = (id: string) => {
 };
 
 const formatPrice = (price: number) => {
-  return new Intl.NumberFormat("de-DE", {
+  return new Intl.NumberFormat(i18n.global.locale.value, {
     style: "currency",
-    currency: "EUR",
+    currency: t("product.price.currency"),
     minimumFractionDigits: 2,
   }).format(price / 100);
 };
-
-const productName = "BOOMSTER Go";
 
 const getProductImageUrl = (imageUrl: string) => {
   const imageDomain =
@@ -32,18 +34,23 @@ const getProductImageUrl = (imageUrl: string) => {
 };
 
 const fetchProducts = async () => {
-  try {
-    isLoading.value = true;
-    const response = await fetch(
-      "https://cdn.teufelaudio.com/raw/upload/v1599581070/test_assets/bikiniberlin.json"
-    );
-    if (!response.ok) throw new Error("Failed to fetch product list");
-    products.value = await response.json();
-  } catch (e) {
-    error.value = e instanceof Error ? e.message : "Failed to load products";
-  } finally {
-    isLoading.value = false;
-  }
+  isLoading.value = true;
+  fetch(
+    "https://cdn.teufelaudio.com/raw/upload/v1599581070/test_assets/bikiniberlin.json"
+  )
+    .then((response) => {
+      if (!response.ok) throw new Error("Failed to fetch product list");
+      return response.json();
+    })
+    .then((data) => {
+      products.value = data;
+    })
+    .catch((e) => {
+      error.value = e instanceof Error ? e.message : "Failed to load products";
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 
 onMounted(() => {
@@ -58,10 +65,14 @@ onMounted(() => {
     <template v-else-if="selectedProduct">
       <img
         :src="getProductImageUrl(selectedProduct.imageUrl)"
-        :alt="selectedProduct.productVariant"
+        :alt="
+          t('product.accessibility.productImage', {
+            color: selectedProduct.productVariant,
+          })
+        "
         class="product-details__image"
       />
-      <h1 class="product-details__name">{{ productName }}</h1>
+      <h1 class="product-details__name">{{ t("product.title") }}</h1>
       <span class="price product-details__price">
         {{ formatPrice(selectedProduct.productPrice) }}</span
       >
@@ -71,12 +82,22 @@ onMounted(() => {
           :key="id"
           :class="['color-swatch', { active: id === selectedId }]"
           :style="{ backgroundColor: product.productColour }"
-          :aria-label="`Select ${product.productVariant}`"
+          :aria-label="
+            t('product.accessibility.colorSelect', {
+              color: product.productVariant,
+            })
+          "
           @click="selectProduct(String(id))"
         />
       </div>
       <button class="button" :disabled="!selectedProduct.inStock">
-        {{ selectedProduct.inStock ? "Buy now" : "Out of stock" }}
+        {{
+          t(
+            `product.buyButton.${
+              selectedProduct.inStock ? "available" : "unavailable"
+            }`
+          )
+        }}
       </button>
     </template>
   </div>
@@ -130,18 +151,18 @@ onMounted(() => {
   transition: all 0.2s ease;
   &.active,
   &.active:hover {
-    border: 2px solid #4a90e2;
+    border: 2px solid var(--color-accent);
     transform: scale(1.2);
   }
   &:hover {
-    border: 1px solid #4a90e2;
+    border: 1px solid var(--color-accent);
   }
 }
 
 .button {
   width: 100%;
   padding: 0.75rem;
-  background-color: #008744;
+  background-color: var(--color-primary);
   color: white;
   border: none;
   border-radius: 0.25rem;
@@ -150,11 +171,11 @@ onMounted(() => {
 }
 
 .button:hover {
-  background-color: #006633;
+  background-color: var(--color-primary-dark);
 }
 
 .button:disabled {
-  background-color: #808080;
-  color: #fafafa;
+  background-color: var(--color-muted-dark);
+  color: var(--color-text-muted);
 }
 </style>

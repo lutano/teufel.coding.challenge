@@ -1,0 +1,16 @@
+{
+  "product": {
+    "title": "Boomster Go",
+    "buyButton": {
+      "available": "Jetzt Kaufen",
+      "unavailable": "Nicht Verfügbar"
+    },
+    "price": {
+      "currency": "EUR"
+    },
+    "accessibility": {
+      "colorSelect": "{color} auswählen",
+      "productImage": "Boomster Go in {color}"
+    }
+  }
+}
