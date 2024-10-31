@@ -10,7 +10,7 @@ A Vue 3 component for an e-commerce website that allows users to view and select
 
 ## Technical Stack
 
-- Vue 3 with `<script setup>`
+- Vue 3
 - TypeScript
 - Vite
 - Vue I18n
@@ -27,7 +27,4 @@ npm run dev
 
 # Build for production
 npm run build
-
-# Run tests
-npm run test
 ```
