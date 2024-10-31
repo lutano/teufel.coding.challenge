@@ -40,10 +40,8 @@ body {
   place-items: center;
   min-width: 20rem;
   min-height: 100vh;
-
-  /* background: linear-gradient(var(--gradient-angle), var(--gradient-colors-1)); */
-  background-size: 200% 200%;
-  animation: gradient-animation var(--gradient-speed) ease infinite;
+  background: linear-gradient(var(--gradient-angle), var(--gradient-colors-1));
+  transition: background-size 0.5s ease;
 }
 
 h1 {

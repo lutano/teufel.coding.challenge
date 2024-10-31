@@ -4,7 +4,13 @@ import { useLocale, type SupportedLocale } from "../i18n";
 const { setLocale, currentLocale, supportedLocales } = useLocale();
 
 const handleLocaleChange = (locale: SupportedLocale) => {
+  const localeIndex = supportedLocales.indexOf(locale);
+
   setLocale(locale);
+  // FANCY-PANCY: Lets animate the background size!
+  document.body.style.backgroundSize = `${localeIndex + 1}00% ${
+    localeIndex + 1
+  }00%`;
 };
 </script>
 

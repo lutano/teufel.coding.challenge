@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
+import { i18n } from "../i18n";
 import { ProductList } from "../types/ProductTypes";
 import LoadingSpinner from "./LoadingSpinner.vue";
-import { i18n } from "../i18n";
+import ColorSwatches from "./ColorSwatches.vue";
 
 const { t } = useI18n();
 
@@ -12,12 +13,10 @@ const selectedId = ref("001");
 const isLoading = ref(false);
 const error = ref<string | null>(null);
 
+// Reactivity and caching: only recompute when selectedProduct selectedId changes
 const selectedProduct = computed(() => products.value?.[selectedId.value]);
 
-const selectProduct = (id: string) => {
-  selectedId.value = id;
-};
-
+// Lets format prices according to the current locale and currency settings
 const formatPrice = (price: number) => {
   return new Intl.NumberFormat(i18n.global.locale.value, {
     style: "currency",
@@ -26,6 +25,7 @@ const formatPrice = (price: number) => {
   }).format(price / 100);
 };
 
+// Lets construct the full URL for a product image by combining the provided image URL with the image domain.
 const getProductImageUrl = (imageUrl: string) => {
   const imageDomain =
     "https://cdn.teufelaudio.com/image/upload/c_fill,f_auto,h_200,q_auto,w_300";
@@ -33,6 +33,7 @@ const getProductImageUrl = (imageUrl: string) => {
   return `${imageDomain}${imageUrl}`;
 };
 
+// Lets fetch the products from the API endpoint and handle errors
 const fetchProducts = async () => {
   isLoading.value = true;
   fetch(
@@ -53,6 +54,7 @@ const fetchProducts = async () => {
     });
 };
 
+// Lets fetch the products when the component is mounted.
 onMounted(() => {
   fetchProducts();
 });
@@ -76,20 +78,7 @@ onMounted(() => {
       <span class="price product-details__price">
         {{ formatPrice(selectedProduct.productPrice) }}</span
       >
-      <div class="product-details__colors">
-        <button
-          v-for="(product, id) in products"
-          :key="id"
-          :class="['color-swatch', { active: id === selectedId }]"
-          :style="{ backgroundColor: product.productColour }"
-          :aria-label="
-            t('product.accessibility.colorSelect', {
-              color: product.productVariant,
-            })
-          "
-          @click="selectProduct(String(id))"
-        />
-      </div>
+      <ColorSwatches :products="products" v-model:selectedId="selectedId" />
       <button class="button" :disabled="!selectedProduct.inStock">
         {{
           t(
@@ -131,32 +120,6 @@ onMounted(() => {
 .product-details__price {
   font-size: 1.25rem;
   margin-bottom: 1rem;
-}
-
-.product-details__colors {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.color-swatch {
-  width: 1.5rem;
-  height: 1.5rem;
-  border: 1px solid #ddd;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  padding: 0;
-  transition: all 0.2s ease;
-  &.active,
-  &.active:hover {
-    border: 2px solid var(--color-accent);
-    transform: scale(1.2);
-  }
-  &:hover {
-    border: 1px solid var(--color-accent);
-  }
 }
 
 .button {
